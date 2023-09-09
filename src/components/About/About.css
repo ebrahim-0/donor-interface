@@ -1,0 +1,7 @@
+.active-scroll {
+  background-color: #3b82f6;
+  color: white;
+}
+.active-scroll:hover {
+  color: black;
+}
