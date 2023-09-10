@@ -3,7 +3,7 @@ export default function Stats() {
     <>
       <section className="w-4/5 mx-auto relative -mt-36">
         <div className="grid items-center justify-items-center xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 py-16">
-          <div className="p-9 bg-blue-500 rounded text-white h-full">
+          <div className="p-9 bg-blue-400 rounded text-slate-800 h-full text-lg">
             <img
               src="/images/waiting-list.png"
               alt="Waiting List"
@@ -15,7 +15,7 @@ export default function Stats() {
               waiting list.
             </p>
           </div>
-          <div className="p-9 bg-blue-500 rounded text-white h-full">
+          <div className="p-9 bg-blue-400 rounded text-slate-800 h-full text-lg">
             <img
               src="/images/hourglass.png"
               alt="Hourglass"
@@ -24,7 +24,7 @@ export default function Stats() {
             <p>17+</p>
             <p>People die each day waiting for an organ transplant.</p>
           </div>
-          <div className="p-9 bg-blue-500 rounded text-white h-full">
+          <div className="p-9 bg-blue-400 rounded text-slate-800 h-full text-lg">
             <img
               src="/images/organ-donation.png"
               alt="Organ Donation"

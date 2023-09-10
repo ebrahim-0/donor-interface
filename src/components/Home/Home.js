@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <section id="home">
-      <section className="hero text-white">
+      <section className="hero text-black">
         <div className="w-4/5 mx-auto relative z-10 py-28">
           <h1 className="text-4xl font-bold py-5">#Be a Hero</h1>
           <p className="flex flex-col text-2xl py-5">
