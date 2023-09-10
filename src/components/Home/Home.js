@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom";
 import "./Home.css";
+import { auth } from "../../Auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { useState } from "react";
+import Stats from "./Stats";
 export default function Home() {
+  const [user, setUser] = useState("");
+
+  onAuthStateChanged(auth, (user) => {
+    setUser(user);
+  });
+
   return (
     <section id="home">
       <section className="hero text-white">
@@ -17,48 +27,33 @@ export default function Home() {
             </span>
             life-saving opportunity for others.
           </p>
-          <Link
-            to="/register"
-            className="bg-blue-500 text-white px-3 py-1 hover:bg-blue-400 hover:text-slate-900 rounded text-3xl font-medium transition-all duration-300 cursor-pointer"
-          >
-            Donate Now
-          </Link>
+          {user ? (
+            <Link
+              to="/register"
+              className="bg-blue-500 text-white px-3 py-1 hover:bg-blue-400 hover:text-slate-900 rounded text-3xl font-medium transition-all duration-300 cursor-pointer"
+            >
+              Donate Now
+            </Link>
+          ) : (
+            <div className="flex items-center gap-2 w-fit">
+              <Link
+                to="login"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Login
+              </Link>
+              <span>OR</span>
+              <Link
+                to="signup"
+                className="bg-blue-700 hover:bg-blue-500 text-white w-full font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       </section>
-      <section className="w-4/5 mx-auto relative -mt-36">
-        <div className="grid items-center justify-items-center xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 py-16">
-          <div className="p-9 bg-blue-500 rounded text-white h-full">
-            <img
-              src="/images/waiting-list.png"
-              alt="Waiting List"
-              className="object-cover max-w-[15%]"
-            />
-            <p>104,234+</p>
-            <p>
-              Number of men, women, and children on the national transplant
-              waiting list.
-            </p>
-          </div>
-          <div className="p-9 bg-blue-500 rounded text-white h-full">
-            <img
-              src="/images/hourglass.png"
-              alt="Hourglass"
-              className="object-cover max-w-[15%]"
-            />
-            <p>17+</p>
-            <p>People die each day waiting for an organ transplant.</p>
-          </div>
-          <div className="p-9 bg-blue-500 rounded text-white h-full">
-            <img
-              src="/images/organ-donation.png"
-              alt="Organ Donation"
-              className="object-cover max-w-[15%]"
-            />
-            <p>You can help</p>
-            <p>Every donor can save 8 lives and enhance over 75 more.</p>
-          </div>
-        </div>
-      </section>
+      <Stats />
     </section>
   );
 }

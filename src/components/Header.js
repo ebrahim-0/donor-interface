@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-scroll";
 import { FaBars } from "react-icons/fa";
+import { BiUser } from "react-icons/bi";
+import { auth } from "../Auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 export default function Header() {
+  const [user, setUser] = useState("");
+  const [profile, setProfile] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+  }, [user]);
+
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
-  const NavLinks = (mobile, width) => {
+  const NavLinks = (mobile, width, position) => {
     return (
       <>
         <NavLink
@@ -64,13 +76,49 @@ export default function Header() {
         >
           Blog
         </Link>
-        <NavLink
-          to="register"
-          onClick={mobile}
-          className={`bg-blue-500 text-white px-3 py-2 hover:bg-blue-400 hover:text-slate-900 rounded text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
-        >
-          Donate Now
-        </NavLink>
+
+        {user ? (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              className="hover:text-blue-500 transition-all duration-300 relative"
+              onClick={() => {
+                setProfile(!profile);
+              }}
+            >
+              <BiUser className="text-3xl" />
+            </button>
+            {profile && (
+              <div
+                className={`profile absolute ${position} mt-3 w-full p-5 rounded-lg bg-white/60 max-w-[320px] flex flex-col gap-2 justify-end items-end border-4 transition-all duration-500`}
+              >
+                <h1 className="capitalize">Welcome ,{user.displayName}</h1>
+                <button
+                  className="bg-red-500 text-white px-2 py-1 rounded-md"
+                  onClick={async () => {
+                    try {
+                      await signOut(auth);
+                      console.log("User logout");
+                      window.location.reload();
+                    } catch (error) {
+                      console.log(error.message);
+                    }
+                  }}
+                >
+                  Log Out
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <NavLink
+            to="login"
+            onClick={mobile}
+            className={`bg-blue-500 text-white px-3 py-2 hover:bg-blue-400 hover:text-slate-900 rounded text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
+          >
+            Login
+          </NavLink>
+        )}
       </>
     );
   };
@@ -90,7 +138,7 @@ export default function Header() {
         {/* Desktop Navigation */}
 
         <div className="sm:flex items-center hidden sm:gap-3 gap-5 text-base">
-          {NavLinks()}
+          {NavLinks(() => {}, "", "right-36 top-14")}
         </div>
 
         {/* Mobile Navigation */}
@@ -112,7 +160,7 @@ export default function Header() {
             </button>
 
             <div className="menu absolute -right-[40px] -top-[500px] mt-3 w-full p-5 rounded-lg bg-white/60 min-w-[320px] flex flex-col gap-2 justify-end items-end border-4 transition-all duration-500">
-              {NavLinks(handleMobileNav, "w-full")}
+              {NavLinks(handleMobileNav, "w-full", "right-0 -bottom-28")}
             </div>
           </div>
         </div>
