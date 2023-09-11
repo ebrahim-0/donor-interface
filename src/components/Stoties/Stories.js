@@ -24,7 +24,7 @@ export default function Stories() {
           <SwiperSlide>
             <div className="flex flex-col items-center justify-center gap-6 md:w-2/3 w-full mx-auto mb-16">
               <img src="/images/client1.jpg" alt="" className="rounded-full" />
-              <p className="text-base text-center my-6">
+              <p className="text-center my-6">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
                 Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -37,7 +37,7 @@ export default function Stories() {
           <SwiperSlide className="">
             <div className="flex flex-col items-center justify-center gap-6 md:w-2/3 w-full mx-auto mb-16">
               <img src="/images/client2.jpg" alt="" className="rounded-full" />
-              <p className="text-base text-center my-6">
+              <p className="text-center my-6">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
                 Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -50,7 +50,7 @@ export default function Stories() {
           <SwiperSlide>
             <div className="flex flex-col items-center justify-center gap-6 md:w-2/3 w-full mx-auto mb-16">
               <img src="/images/client3.jpg" alt="" className="rounded-full" />
-              <p className="text-base text-center my-6">
+              <p className="text-center my-6">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
                 Lorem Ipsum is simply dummy text of the printing and typesetting

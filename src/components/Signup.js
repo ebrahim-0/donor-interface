@@ -86,7 +86,7 @@ export default function SignUp() {
     }
   };
   return (
-    <section className="bg-blue-100 h-[90vh] flex justify-center items-center">
+    <section className="bg-blue-50 h-[90vh] flex justify-center items-center">
       <form
         className="bg-white rounded-md px-8 pt-6 pb-8 mb-2 w-[400px] shadow-xl"
         onSubmit={handleSubmit}

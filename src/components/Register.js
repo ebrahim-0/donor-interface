@@ -97,10 +97,8 @@ export default function Register() {
     }
   };
 
-  console.log(formData);
-
   return (
-    <section className="bg-blue-100 flex justify-center items-center">
+    <section className="bg-blue-50 flex justify-center items-center">
       <form
         className="bg-white rounded-md px-8 pt-6 pb-8 my-7 md:w-1/2 mx-6 shadow-xl"
         onSubmit={handleSubmit}
