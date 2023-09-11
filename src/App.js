@@ -15,6 +15,7 @@ import useGet from "./Hook/useGet";
 import TestLogin from "./components/Login/TestLogin";
 import Stories from "./components/Stoties/Stories";
 import Blog from "./components/Blog";
+import Footer from "./components/Footer";
 
 function App() {
   const [user, setUser] = useState("");
@@ -72,6 +73,8 @@ function App() {
           }
         />
       </Routes>
+
+      <Footer />
     </>
   );
 }
