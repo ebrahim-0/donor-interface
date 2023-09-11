@@ -97,6 +97,8 @@ export default function Register() {
     }
   };
 
+  console.log(formData);
+
   return (
     <section className="bg-blue-100 flex justify-center items-center">
       <form
@@ -115,7 +117,7 @@ export default function Register() {
           </label>
           <input
             required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
             id="name"
             type="text"
             placeholder="Full Name"
@@ -125,7 +127,7 @@ export default function Register() {
           />
         </div>
         <div className="md:flex justify-between">
-          <div className="mb-6 md:w-[47%]">
+          <div className="mb-4 md:w-[47%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="gender"
@@ -136,7 +138,7 @@ export default function Register() {
               required
               id="gender"
               defaultValue="Gender"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
               }
@@ -148,7 +150,7 @@ export default function Register() {
               <option value={"Female"}>Female</option>
             </select>
           </div>
-          <div className="mb-6 md:w-[47%]">
+          <div className="mb-4 md:w-[47%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="blood-type"
@@ -162,7 +164,7 @@ export default function Register() {
               }
               id="bloodType"
               defaultValue="Blood Type"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
             >
               <option disabled value={"Blood Type"}>
                 Blood Type
@@ -179,7 +181,7 @@ export default function Register() {
           </div>
         </div>
         <div className="md:flex justify-between">
-          <div className="mb-6 md:w-[47%]">
+          <div className="mb-4 md:w-[47%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="birth-date"
@@ -191,13 +193,13 @@ export default function Register() {
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
               }
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
               id="birthDate"
               type="date"
               placeholder="Birth Date"
             />
           </div>
-          <div className="mb-6 md:w-[47%]">
+          <div className="mb-4 md:w-[47%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="phone-number"
@@ -209,14 +211,14 @@ export default function Register() {
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
               }
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
               id="phoneNumber"
               type="tel"
               placeholder="Phone Number"
             />
           </div>
         </div>
-        <div className="mb-6">
+        <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="id"
@@ -229,9 +231,13 @@ export default function Register() {
               setFormData({ ...formData, [e.target.id]: e.target.value })
             }
             id="id"
-            type="text"
+            type="number"
+            maxLength="10"
+            onInput={(e) =>
+              (e.target.value = e.target.value.slice(0, e.target.maxLength))
+            }
             placeholder="Id"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline disabled:opacity-50"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline disabled:opacity-50 "
             onFocus={() => setIdFocus(true)}
             onBlur={() => setIdFocus(false)}
           />
@@ -243,11 +249,11 @@ export default function Register() {
                 : "absolute left-[-9999px]"
             }
           >
-            Id must be 10 Numbers
+            unvalid Id It must be 10 digits and unique for each donor .
           </span>
         </div>
         <div className="md:flex justify-between">
-          <div className="mb-6 md:w-[47%]">
+          <div className="mb-4 md:w-[47%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="nationality"
@@ -259,13 +265,13 @@ export default function Register() {
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
               }
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
               id="nationality"
               type="text"
               placeholder="Nationality"
             />
           </div>
-          <div className="mb-6 md:w-[47%]">
+          <div className="mb-4 md:w-[47%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="national-id"
@@ -277,7 +283,7 @@ export default function Register() {
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
               }
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
               id="nationalId"
               type="number"
               placeholder="National ID"
@@ -285,7 +291,7 @@ export default function Register() {
           </div>
         </div>
         <div className="md:flex justify-between">
-          <div className="mb-6 md:w-[47%]">
+          <div className="mb-4 md:w-[47%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="region"
@@ -297,13 +303,13 @@ export default function Register() {
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
               }
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline disabled:opacity-50"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline disabled:opacity-50 "
               id="region"
               type="text"
               placeholder="Region"
             />
           </div>
-          <div className="mb-6 md:w-[47%]">
+          <div className="mb-4 md:w-[47%]">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="city"
@@ -315,14 +321,14 @@ export default function Register() {
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
               }
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline disabled:opacity-50"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline disabled:opacity-50 "
               id="city"
               type="text"
               placeholder="City"
             />
           </div>
         </div>
-        <div className="mb-6">
+        <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="address"
@@ -334,13 +340,13 @@ export default function Register() {
             onChange={(e) =>
               setFormData({ ...formData, [e.target.id]: e.target.value })
             }
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline disabled:opacity-50"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline disabled:opacity-50 "
             id="address"
             type="text"
             placeholder="Address"
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="organ-type"
@@ -354,7 +360,7 @@ export default function Register() {
             }
             id="organType"
             defaultValue="Organ Type"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline disabled:opacity-50"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline disabled:opacity-50 "
           >
             <option disabled value={"Organ Type"}>
               Organ Type
@@ -365,7 +371,7 @@ export default function Register() {
           </select>
         </div>
         <div
-          className="mb-6  flex gap-3 items-center"
+          className="mb-4  flex gap-3 items-center"
           onClick={() => setTerms(!terms)}
         >
           <input
@@ -381,7 +387,7 @@ export default function Register() {
           </label>
         </div>
         <div
-          className="mb-6  flex gap-3 items-center"
+          className="mb-4  flex gap-3 items-center"
           onClick={() => setDonate(!donate)}
         >
           <input
@@ -398,7 +404,27 @@ export default function Register() {
         </div>
 
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
+          disabled={
+            !terms ||
+            !donate ||
+            !isIdValid ||
+            formData.id.length !== 10 ||
+            formData.id === "" ||
+            formData.name.length === 0 ||
+            formData.name.length === 0 ||
+            formData.gender.length === 0 ||
+            formData.bloodType.length === 0 ||
+            formData.birthDate.length === 0 ||
+            formData.phoneNumber.length === 0 ||
+            formData.nationality.length === 0 ||
+            formData.id.length === 0 ||
+            formData.nationalId.length === 0 ||
+            formData.address.length === 0 ||
+            formData.region.length === 0 ||
+            formData.city.length === 0 ||
+            formData.organType.length === 0
+          }
+          className="bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:border-blue-300 focus:shadow-outline disabled:opacity-50 "
           type="submit"
         >
           Register

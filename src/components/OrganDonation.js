@@ -1,7 +1,7 @@
 export default function OrganDonation() {
   return (
     <section id="organ-donation" className="bg-blue-100">
-      <main className="w-4/5 mx-auto py-16 ">
+      <main className="w-4/5 mx-auto py-16">
         <div className="text-xl">
           <h2 className="text-5xl font-bold text-center mb-9">
             Organ Donation

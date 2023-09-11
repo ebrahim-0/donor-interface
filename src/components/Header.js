@@ -1,33 +1,36 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Link } from "react-scroll";
 import { FaBars } from "react-icons/fa";
 import { BiUser } from "react-icons/bi";
 import { auth } from "../Auth";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
+import useGet from "../Hook/useGet";
 
 export default function Header() {
-  const [user, setUser] = useState("");
+  const { user } = useGet();
   const [profile, setProfile] = useState(false);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-  }, [user]);
+  const navigate = useNavigate();
 
-  const [toggleDropdown, setToggleDropdown] = useState(false);
-
-  const NavLinks = (mobile, width, position) => {
+  const NavLinks = (width, position, mobile) => {
     return (
       <>
-        <NavLink
-          to="/"
-          onClick={mobile}
+        <Link
+          activeClass="active-scroll"
+          spy={true}
+          smooth={true}
+          offset={-330}
+          duration={500}
+          to="home"
+          onClick={() => {
+            mobile();
+            navigate("/");
+          }}
           className={`hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
         >
           Home
-        </NavLink>
+        </Link>
         <Link
           activeClass="active-scroll"
           spy={true}
@@ -35,7 +38,10 @@ export default function Header() {
           offset={-330}
           duration={500}
           to="about"
-          onClick={mobile}
+          onClick={() => {
+            mobile();
+            navigate("/");
+          }}
           className={`hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
         >
           About
@@ -47,7 +53,10 @@ export default function Header() {
           offset={-330}
           duration={500}
           to="organ-donation"
-          onClick={mobile}
+          onClick={() => {
+            mobile();
+            navigate("/");
+          }}
           className={`hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
         >
           Organ Donation
@@ -59,7 +68,10 @@ export default function Header() {
           offset={-330}
           duration={500}
           to="patients"
-          onClick={mobile}
+          onClick={() => {
+            mobile();
+            navigate("/");
+          }}
           className={`hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
         >
           Patients
@@ -71,7 +83,10 @@ export default function Header() {
           offset={-330}
           duration={500}
           to="blog"
-          onClick={mobile}
+          onClick={() => {
+            mobile();
+            navigate("/");
+          }}
           className={`hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
         >
           Blog
@@ -113,7 +128,10 @@ export default function Header() {
         ) : (
           <NavLink
             to="login"
-            onClick={mobile}
+            onClick={() => {
+              mobile();
+              navigate("/login");
+            }}
             className={`bg-blue-500 text-white px-3 py-2 hover:bg-blue-400 hover:text-slate-900 rounded text-sm font-medium transition-all duration-300 cursor-pointer ${width}`}
           >
             Login
@@ -124,7 +142,8 @@ export default function Header() {
   };
 
   const handleMobileNav = () => {
-    setToggleDropdown(false);
+    document.querySelector(".menu").classList.toggle("-top-[500px]");
+    document.querySelector(".menu").classList.toggle("top-9");
   };
 
   return (
@@ -138,7 +157,7 @@ export default function Header() {
         {/* Desktop Navigation */}
 
         <div className="sm:flex items-center hidden sm:gap-3 gap-5 text-base">
-          {NavLinks(() => {}, "", "right-36 top-14")}
+          {NavLinks("", "right-36 top-14", () => {})}
         </div>
 
         {/* Mobile Navigation */}
@@ -148,19 +167,13 @@ export default function Header() {
             <button
               type="button"
               className="hover:text-blue-500 transition-all duration-300"
-              onClick={() => {
-                setToggleDropdown(!toggleDropdown);
-                document
-                  .querySelector(".menu")
-                  .classList.toggle("-top-[500px]");
-                document.querySelector(".menu").classList.toggle("top-9");
-              }}
+              onClick={handleMobileNav}
             >
               <FaBars className="text-3xl" />
             </button>
 
             <div className="menu absolute -right-[40px] -top-[500px] mt-3 w-full p-5 rounded-lg bg-white/60 min-w-[320px] flex flex-col gap-2 justify-end items-end border-4 transition-all duration-500">
-              {NavLinks(handleMobileNav, "w-full", "right-0 -bottom-28")}
+              {NavLinks("w-full", "right-0 -bottom-28", handleMobileNav)}
             </div>
           </div>
         </div>

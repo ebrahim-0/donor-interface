@@ -4,16 +4,21 @@ import Header from "./components/Header";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import OrganDonation from "./components/OrganDonation";
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
 import SignUp from "./components/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./Auth";
 import Register from "./components/Register";
+import useGet from "./Hook/useGet";
+import TestLogin from "./components/Login/TestLogin";
+import Stories from "./components/Stoties/Stories";
+import Blog from "./components/Blog";
 
 function App() {
   const [user, setUser] = useState("");
+  const { id } = useGet();
 
   onAuthStateChanged(auth, (user) => {
     setUser(user);
@@ -32,6 +37,8 @@ function App() {
               <Home />
               <About />
               <OrganDonation />
+              <Stories />
+              <Blog />
             </>
           }
         />
@@ -44,6 +51,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="testlogin" element={<TestLogin />} />
+
         <Route
           path="signup"
           element={
@@ -56,7 +66,7 @@ function App() {
         <Route
           path="register"
           element={
-            <ProtectedRoute user={!user}>
+            <ProtectedRoute user={id}>
               <Register />
             </ProtectedRoute>
           }

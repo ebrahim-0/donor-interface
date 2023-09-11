@@ -1,10 +1,10 @@
-.hero {
-  background: url("/public/images/donor.png") no-repeat;
+.story {
+  background: url("/public/images/donor.jpg") no-repeat;
   background-size: cover;
   position: relative;
 }
 
-.hero::after {
+.story::after {
   content: "";
   position: absolute;
   width: 100%;

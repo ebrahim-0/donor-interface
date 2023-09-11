@@ -1,8 +1,9 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { auth } from "../Auth";
+
 import { ToastContainer, toast } from "react-toastify";
+import { auth } from "../../Auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,14 +11,13 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const auth = getAuth();
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+
+      navigate("/testlogin");
     } catch (error) {
       toast.error(error.message);
     }

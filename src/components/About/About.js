@@ -2,7 +2,7 @@ import "./About.css";
 
 export default function About() {
   return (
-    <section id="about" className="w-4/5 mx-auto py-16">
+    <section id="about" className="w-4/5 mx-auto py-20">
       <div className="grid md:grid-cols-2 grid-cols-1 gap-7">
         <div>
           <img
