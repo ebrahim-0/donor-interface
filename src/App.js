@@ -16,6 +16,7 @@ import TestLogin from "./components/Login/TestLogin";
 import Stories from "./components/Stoties/Stories";
 import Blog from "./components/Blog";
 import Footer from "./components/Footer";
+import RestPwd from "./components/Restpwd";
 
 function App() {
   const [user, setUser] = useState("");
@@ -72,6 +73,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="reset-password" element={<RestPwd />} />
+        <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
 
       <Footer />

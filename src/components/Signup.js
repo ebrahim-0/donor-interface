@@ -88,7 +88,7 @@ export default function SignUp() {
   return (
     <section className="bg-blue-50 h-[90vh] flex justify-center items-center">
       <form
-        className="bg-white rounded-md px-8 pt-6 pb-8 mb-2 w-[400px] shadow-xl"
+        className="bg-white rounded-md px-8 pt-6 pb-8 mb-2 w-[400px] mx-5 sm:mx-0 shadow-xl"
         onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-bold text-center mb-9">Sign Up</h2>
