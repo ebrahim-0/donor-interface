@@ -9,6 +9,7 @@ export default function useGet() {
   const [role, setRole] = useState("");
   const [dataRole, setDataRole] = useState("");
   const [id, setId] = useState("");
+  const [dataDonor, setDataDonor] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,6 +17,7 @@ export default function useGet() {
       const querySnapshot = await getDocs(colRef);
       const fetchedItems = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
+        uniqueId: doc.id,
       }));
       setData(fetchedItems);
     };
@@ -30,6 +32,7 @@ export default function useGet() {
         data.forEach((data) => {
           if (data.userId === user.uid) {
             setId(data.id);
+            setDataDonor(data);
           }
         });
       }
@@ -63,5 +66,5 @@ export default function useGet() {
     });
   }, [dataRole]);
 
-  return { data, id, user, role, dataRole };
+  return { data, id, user, role, dataDonor, dataRole };
 }

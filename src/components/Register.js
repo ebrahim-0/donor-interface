@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  setDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "../Auth";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import useGet from "../Hook/useGet";
 
 export default function Register() {
   const auth = getAuth();
   const user = auth.currentUser;
+
+  const { dataDonor } = useGet();
 
   const navigate = useNavigate();
 
@@ -25,30 +37,37 @@ export default function Register() {
     city: "",
     organType: "",
   });
+
   const [terms, setTerms] = useState(false);
   const [donate, setDonate] = useState(false);
 
   const [isIdValid, setIsIdValid] = useState(null);
   const [idFocus, setIdFocus] = useState(false);
 
+  const [update, setUpdate] = useState(false);
+
   const colRef = collection(db, "donor");
 
   useEffect(() => {
-    if (formData.id.length === 10) {
-      const checkIfIdExists = async () => {
-        if (formData.id) {
-          const querySnapshot = await getDocs(
-            query(colRef, where("id", "==", formData.id))
-          );
-          setIsIdValid(querySnapshot.empty);
-        }
-      };
-
-      checkIfIdExists();
+    if (update) {
+      setIsIdValid(true);
     } else {
-      setIsIdValid(false);
+      if (formData?.id?.length === 10) {
+        const checkIfIdExists = async () => {
+          if (formData.id) {
+            const querySnapshot = await getDocs(
+              query(colRef, where("id", "==", formData.id))
+            );
+            setIsIdValid(querySnapshot.empty);
+          }
+        };
+
+        checkIfIdExists();
+      } else {
+        setIsIdValid(false);
+      }
     }
-  }, [formData.id, colRef]);
+  }, [formData.id, update, colRef]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +94,7 @@ export default function Register() {
         gender: formData.gender,
         bloodType: formData.bloodType,
         birthDate: formData.birthDate,
-        phoneNumber: formData.phoneNumber,
+        phoneNumber: "+966" + formData.phoneNumber,
         nationality: formData.nationality,
         id: formData.id,
         nationalId: formData.nationalId,
@@ -97,11 +116,51 @@ export default function Register() {
     }
   };
 
+  useEffect(() => {
+    if (dataDonor.length !== 0) {
+      setFormData(dataDonor);
+      setUpdate(true);
+      setIsIdValid(true);
+    }
+  }, [dataDonor]);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    try {
+      await setDoc(doc(db, "donor", dataDonor.uniqueId), { ...formData });
+
+      navigate("/");
+      toast.done("Your Data has been Updated successfully.", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } catch (error) {
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteDoc(doc(db, "donor", dataDonor.uniqueId));
+
+      navigate("/");
+      toast.done("Your Data has been Updated successfully.", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } catch (error) {
+      toast.error(error.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+
   return (
     <section className="bg-blue-50 flex justify-center items-center">
       <form
         className="bg-white rounded-md px-8 pt-6 pb-8 my-7 md:w-1/2 mx-6 shadow-xl"
-        onSubmit={handleSubmit}
+        onSubmit={update ? handleUpdate : handleSubmit}
       >
         <h2 className="text-2xl font-bold text-center mb-9">
           Register as a Donor
@@ -122,6 +181,7 @@ export default function Register() {
             onChange={(e) =>
               setFormData({ ...formData, [e.target.id]: e.target.value })
             }
+            defaultValue={formData.name}
           />
         </div>
         <div className="md:flex justify-between">
@@ -135,11 +195,11 @@ export default function Register() {
             <select
               required
               id="gender"
-              defaultValue="Gender"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
               }
+              value={formData.gender ? formData.gender : "Gender"}
             >
               <option disabled value={"Gender"}>
                 Gender
@@ -156,12 +216,12 @@ export default function Register() {
               Blood Type
             </label>
             <select
+              value={formData.bloodType ? formData.bloodType : "Blood Type"}
               required
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
               }
               id="bloodType"
-              defaultValue="Blood Type"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
             >
               <option disabled value={"Blood Type"}>
@@ -186,7 +246,9 @@ export default function Register() {
             >
               Birth Date
             </label>
+
             <input
+              defaultValue={formData.birthDate}
               required
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
@@ -194,6 +256,8 @@ export default function Register() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
               id="birthDate"
               type="date"
+              onClick={(e) => e.target.showPicker()}
+              max={new Date().toISOString().split("T")[0]}
               placeholder="Birth Date"
             />
           </div>
@@ -204,16 +268,23 @@ export default function Register() {
             >
               Phone Number
             </label>
-            <input
-              required
-              onChange={(e) =>
-                setFormData({ ...formData, [e.target.id]: e.target.value })
-              }
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
-              id="phoneNumber"
-              type="tel"
-              placeholder="Phone Number"
-            />
+            <div className="flex items-center shadow appearance-none border rounded w-full px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline">
+              <span>+996</span>
+              <input
+                required
+                onChange={(e) => {
+                  setFormData({
+                    ...formData,
+                    [e.target.id]: e.target.value,
+                  });
+                }}
+                className="w-full pl-1 py-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
+                id="phoneNumber"
+                type="tel"
+                placeholder="Phone Number"
+                defaultValue={formData.phoneNumber}
+              />
+            </div>
           </div>
         </div>
         <div className="mb-4">
@@ -224,6 +295,7 @@ export default function Register() {
             Id
           </label>
           <input
+            defaultValue={formData.id}
             required
             onChange={(e) =>
               setFormData({ ...formData, [e.target.id]: e.target.value })
@@ -259,6 +331,7 @@ export default function Register() {
               Nationality
             </label>
             <input
+              defaultValue={formData.nationality}
               required
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
@@ -277,6 +350,7 @@ export default function Register() {
               National ID
             </label>
             <input
+              defaultValue={formData.nationalId}
               required
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
@@ -297,6 +371,7 @@ export default function Register() {
               Region
             </label>
             <input
+              defaultValue={formData.region}
               required
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
@@ -315,6 +390,7 @@ export default function Register() {
               City
             </label>
             <input
+              defaultValue={formData.city}
               required
               onChange={(e) =>
                 setFormData({ ...formData, [e.target.id]: e.target.value })
@@ -334,6 +410,7 @@ export default function Register() {
             Address
           </label>
           <textarea
+            defaultValue={formData.address}
             required
             onChange={(e) =>
               setFormData({ ...formData, [e.target.id]: e.target.value })
@@ -352,12 +429,12 @@ export default function Register() {
             Organ Type
           </label>
           <select
+            value={formData.organType ? formData.organType : "Organ Type"}
             required
             onChange={(e) =>
               setFormData({ ...formData, [e.target.id]: e.target.value })
             }
             id="organType"
-            defaultValue="Organ Type"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline disabled:opacity-50 "
           >
             <option disabled value={"Organ Type"}>
@@ -381,7 +458,7 @@ export default function Register() {
             onChange={() => {}}
           />
           <label className="text-gray-700 text-sm font-bold">
-            I agree to the terms and conditions
+            I accept the terms and conditions.
           </label>
         </div>
         <div
@@ -401,32 +478,69 @@ export default function Register() {
           </label>
         </div>
 
-        <button
-          disabled={
-            !terms ||
-            !donate ||
-            !isIdValid ||
-            formData.id.length !== 10 ||
-            formData.id === "" ||
-            formData.name.length === 0 ||
-            formData.name.length === 0 ||
-            formData.gender.length === 0 ||
-            formData.bloodType.length === 0 ||
-            formData.birthDate.length === 0 ||
-            formData.phoneNumber.length === 0 ||
-            formData.nationality.length === 0 ||
-            formData.id.length === 0 ||
-            formData.nationalId.length === 0 ||
-            formData.address.length === 0 ||
-            formData.region.length === 0 ||
-            formData.city.length === 0 ||
-            formData.organType.length === 0
-          }
-          className="bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:border-blue-300 focus:shadow-outline disabled:opacity-50 "
-          type="submit"
-        >
-          Register
-        </button>
+        {update ? (
+          <div className="flex justify-between">
+            <button
+              disabled={
+                !terms ||
+                !donate ||
+                formData.id.length !== 10 ||
+                formData.id === "" ||
+                formData.name.length === 0 ||
+                formData.name.length === 0 ||
+                formData.gender.length === 0 ||
+                formData.bloodType.length === 0 ||
+                formData.birthDate.length === 0 ||
+                formData.phoneNumber.length === 0 ||
+                formData.nationality.length === 0 ||
+                formData.id.length === 0 ||
+                formData.nationalId.length === 0 ||
+                formData.address.length === 0 ||
+                formData.region.length === 0 ||
+                formData.city.length === 0 ||
+                formData.organType.length === 0
+              }
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:border-blue-300 focus:shadow-outline disabled:opacity-50 "
+              type="submit"
+            >
+              Update
+            </button>
+            <button
+              onClick={handleDelete}
+              className="bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:border-red-300 focus:shadow-outline disabled:opacity-50 "
+              type="button"
+            >
+              Delete Your Data
+            </button>
+          </div>
+        ) : (
+          <button
+            disabled={
+              !terms ||
+              !donate ||
+              !isIdValid ||
+              formData.id.length !== 10 ||
+              formData.id === "" ||
+              formData.name.length === 0 ||
+              formData.name.length === 0 ||
+              formData.gender.length === 0 ||
+              formData.bloodType.length === 0 ||
+              formData.birthDate.length === 0 ||
+              formData.phoneNumber.length === 0 ||
+              formData.nationality.length === 0 ||
+              formData.id.length === 0 ||
+              formData.nationalId.length === 0 ||
+              formData.address.length === 0 ||
+              formData.region.length === 0 ||
+              formData.city.length === 0 ||
+              formData.organType.length === 0
+            }
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:border-blue-300 focus:shadow-outline disabled:opacity-50 "
+            type="submit"
+          >
+            Register
+          </button>
+        )}
       </form>
       <ToastContainer />
     </section>

@@ -24,10 +24,15 @@ export default function Home() {
           {user ? (
             id ? (
               <>
-                <h1 className="bg-blue-400  text-slate-950 text-lg p-2 rounded w-fit font-medium">
-                  You have already registered. Thank you for your and Your ID is{" "}
-                  {id}
+                <h1 className="bg-blue-400 mb-4 text-slate-950 text-lg p-2 rounded w-fit font-medium">
+                  You have already registered. Thank you Your id is {id}
                 </h1>
+                <Link
+                  to="register"
+                  className="bg-blue-500 text-white px-3 py-1 hover:bg-blue-400 hover:text-slate-900 rounded text-3xl font-medium transition-all duration-300 cursor-pointer"
+                >
+                  Edit Your Data
+                </Link>
               </>
             ) : (
               <Link

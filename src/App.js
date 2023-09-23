@@ -11,7 +11,6 @@ import { useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./Auth";
 import Register from "./components/Register";
-import useGet from "./Hook/useGet";
 import TestLogin from "./components/Login/TestLogin";
 import Stories from "./components/Stoties/Stories";
 import Blog from "./components/Blog";
@@ -20,7 +19,6 @@ import RestPwd from "./components/Restpwd";
 
 function App() {
   const [user, setUser] = useState("");
-  const { id } = useGet();
 
   onAuthStateChanged(auth, (user) => {
     setUser(user);
@@ -65,14 +63,7 @@ function App() {
           }
         />
 
-        <Route
-          path="register"
-          element={
-            <ProtectedRoute user={id}>
-              <Register />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="register" element={<Register />} />
 
         <Route path="reset-password" element={<RestPwd />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
