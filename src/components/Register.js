@@ -31,14 +31,12 @@ export default function Register() {
     phoneNumber: "",
     nationality: "",
     id: "",
-    nationalId: "",
     address: "",
     region: "",
     city: "",
     organType: "",
   });
 
-  const [terms, setTerms] = useState(false);
   const [donate, setDonate] = useState(false);
 
   const [isIdValid, setIsIdValid] = useState(null);
@@ -97,7 +95,6 @@ export default function Register() {
         phoneNumber: "+966" + formData.phoneNumber,
         nationality: formData.nationality,
         id: formData.id,
-        nationalId: formData.nationalId,
         address: formData.address,
         region: formData.region,
         city: formData.city,
@@ -278,9 +275,13 @@ export default function Register() {
                     [e.target.id]: e.target.value,
                   });
                 }}
+                maxLength="9"
+                onInput={(e) =>
+                  (e.target.value = e.target.value.slice(0, e.target.maxLength))
+                }
                 className="w-full pl-1 py-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
                 id="phoneNumber"
-                type="tel"
+                type="number"
                 placeholder="Phone Number"
                 defaultValue={formData.phoneNumber}
               />
@@ -322,45 +323,24 @@ export default function Register() {
             unvalid Id It must be 10 digits and unique for each donor .
           </span>
         </div>
-        <div className="md:flex justify-between">
-          <div className="mb-4 md:w-[47%]">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="nationality"
-            >
-              Nationality
-            </label>
-            <input
-              defaultValue={formData.nationality}
-              required
-              onChange={(e) =>
-                setFormData({ ...formData, [e.target.id]: e.target.value })
-              }
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
-              id="nationality"
-              type="text"
-              placeholder="Nationality"
-            />
-          </div>
-          <div className="mb-4 md:w-[47%]">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="national-id"
-            >
-              National ID
-            </label>
-            <input
-              defaultValue={formData.nationalId}
-              required
-              onChange={(e) =>
-                setFormData({ ...formData, [e.target.id]: e.target.value })
-              }
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
-              id="nationalId"
-              type="number"
-              placeholder="National ID"
-            />
-          </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="nationality"
+          >
+            Nationality
+          </label>
+          <input
+            defaultValue={formData.nationality}
+            required
+            onChange={(e) =>
+              setFormData({ ...formData, [e.target.id]: e.target.value })
+            }
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
+            id="nationality"
+            type="text"
+            placeholder="Nationality"
+          />
         </div>
         <div className="md:flex justify-between">
           <div className="mb-4 md:w-[47%]">
@@ -442,25 +422,9 @@ export default function Register() {
             </option>
             <option value={"Kidney"}>Kidney</option>
             <option value={"Liver"}>Liver</option>
-            <option value={"Heart"}>Heart</option>
           </select>
         </div>
-        <div
-          className="mb-4  flex gap-3 items-center"
-          onClick={() => setTerms(!terms)}
-        >
-          <input
-            required
-            className="leading-tight mt-1"
-            type="checkbox"
-            id="checkboxTerms"
-            checked={terms}
-            onChange={() => {}}
-          />
-          <label className="text-gray-700 text-sm font-bold">
-            I accept the terms and conditions.
-          </label>
-        </div>
+
         <div
           className="mb-4  flex gap-3 items-center"
           onClick={() => setDonate(!donate)}
@@ -482,7 +446,6 @@ export default function Register() {
           <div className="flex justify-between">
             <button
               disabled={
-                !terms ||
                 !donate ||
                 formData.id.length !== 10 ||
                 formData.id === "" ||
@@ -494,7 +457,6 @@ export default function Register() {
                 formData.phoneNumber.length === 0 ||
                 formData.nationality.length === 0 ||
                 formData.id.length === 0 ||
-                formData.nationalId.length === 0 ||
                 formData.address.length === 0 ||
                 formData.region.length === 0 ||
                 formData.city.length === 0 ||
@@ -516,7 +478,6 @@ export default function Register() {
         ) : (
           <button
             disabled={
-              !terms ||
               !donate ||
               !isIdValid ||
               formData.id.length !== 10 ||
@@ -529,7 +490,6 @@ export default function Register() {
               formData.phoneNumber.length === 0 ||
               formData.nationality.length === 0 ||
               formData.id.length === 0 ||
-              formData.nationalId.length === 0 ||
               formData.address.length === 0 ||
               formData.region.length === 0 ||
               formData.city.length === 0 ||
