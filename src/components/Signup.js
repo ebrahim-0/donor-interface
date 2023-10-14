@@ -114,6 +114,7 @@ export default function SignUp() {
               setFormData((formData) => ({ ...formData, userFocus: false }))
             }
           />
+
           <span
             className={
               formData.userName && !formData.validName && formData.userFocus

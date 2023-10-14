@@ -40,7 +40,9 @@ export default function Register() {
   const [donate, setDonate] = useState(false);
 
   const [isIdValid, setIsIdValid] = useState(null);
+  const [isValidNumber, setIsValidNumber] = useState(null);
   const [idFocus, setIdFocus] = useState(false);
+  const [numberFocus, setNumberFocus] = useState(false);
 
   const [update, setUpdate] = useState(false);
 
@@ -66,6 +68,14 @@ export default function Register() {
       }
     }
   }, [formData.id, update, colRef]);
+
+  useEffect(() => {
+    if (formData.phoneNumber?.length === 9) {
+      setIsValidNumber(true);
+    } else {
+      setIsValidNumber(false);
+    }
+  }, [formData.phoneNumber?.length]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,10 +112,12 @@ export default function Register() {
         userId: user.uid,
       });
 
-      navigate("/");
-      toast.done("Your request has been sent successfully.", {
+      toast.success("Your request has been sent successfully.", {
         position: toast.POSITION.TOP_RIGHT,
       });
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -127,10 +139,12 @@ export default function Register() {
     try {
       await setDoc(doc(db, "donor", dataDonor.uniqueId), { ...formData });
 
-      navigate("/");
-      toast.done("Your Data has been Updated successfully.", {
+      toast.success("Your Data has been Updated successfully.", {
         position: toast.POSITION.TOP_RIGHT,
       });
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -142,10 +156,12 @@ export default function Register() {
     try {
       await deleteDoc(doc(db, "donor", dataDonor.uniqueId));
 
-      navigate("/");
-      toast.done("Your Data has been Updated successfully.", {
+      toast.success("Your Data has been Deleted successfully.", {
         position: toast.POSITION.TOP_RIGHT,
       });
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
       toast.error(error.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -224,14 +240,10 @@ export default function Register() {
               <option disabled value={"Blood Type"}>
                 Blood Type
               </option>
-              <option value={"A+"}>A+</option>
-              <option value={"A-"}>A-</option>
-              <option value={"B+"}>B+</option>
-              <option value={"B-"}>B-</option>
-              <option value={"AB+"}>AB+</option>
-              <option value={"AB-"}>AB-</option>
-              <option value={"O+"}>O+</option>
-              <option value={"O-"}>O-</option>
+              <option value={"A"}>A</option>
+              <option value={"B"}>B</option>
+              <option value={"AB"}>AB</option>
+              <option value={"O"}>O</option>
             </select>
           </div>
         </div>
@@ -279,13 +291,24 @@ export default function Register() {
                 onInput={(e) =>
                   (e.target.value = e.target.value.slice(0, e.target.maxLength))
                 }
+                onFocus={() => setNumberFocus(true)}
+                onBlur={() => setNumberFocus(false)}
                 className="w-full pl-1 py-2 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline"
                 id="phoneNumber"
                 type="number"
                 placeholder="Phone Number"
-                defaultValue={formData.phoneNumber}
+                defaultValue={formData.phoneNumber.slice(4)}
               />
             </div>
+            <span
+              className={
+                formData.phoneNumber && !isValidNumber && numberFocus
+                  ? "text-red-500 text-xs italic"
+                  : "absolute left-[-9999px]"
+              }
+            >
+              unvalid Phone Number .
+            </span>
           </div>
         </div>
         <div className="mb-4">
@@ -420,6 +443,7 @@ export default function Register() {
             <option disabled value={"Organ Type"}>
               Organ Type
             </option>
+            <option value={"All Organs"}>All Organs</option>
             <option value={"Kidney"}>Kidney</option>
             <option value={"Liver"}>Liver</option>
           </select>
@@ -447,6 +471,7 @@ export default function Register() {
             <button
               disabled={
                 !donate ||
+                !isValidNumber ||
                 formData.id.length !== 10 ||
                 formData.id === "" ||
                 formData.name.length === 0 ||
@@ -480,6 +505,7 @@ export default function Register() {
             disabled={
               !donate ||
               !isIdValid ||
+              !isValidNumber ||
               formData.id.length !== 10 ||
               formData.id === "" ||
               formData.name.length === 0 ||
