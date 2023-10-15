@@ -39,7 +39,7 @@ export default function Register() {
 
   const [donate, setDonate] = useState(false);
 
-  const [isIdValid, setIsIdValid] = useState(null);
+  const [isIdValid, setIsIdValid] = useState(true);
   const [isValidNumber, setIsValidNumber] = useState(null);
   const [idFocus, setIdFocus] = useState(false);
   const [numberFocus, setNumberFocus] = useState(false);
