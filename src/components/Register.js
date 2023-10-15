@@ -441,7 +441,7 @@ export default function Register() {
                   [e.target.id]: ["Liver", "Kidney", "Kidney"],
                 });
               } else {
-                setFormData({ ...formData, [e.target.id]: e.target.value });
+                setFormData({ ...formData, [e.target.id]: [e.target.value] });
               }
             }}
             id="organType"
