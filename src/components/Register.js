@@ -434,9 +434,16 @@ export default function Register() {
           <select
             value={formData.organType ? formData.organType : "Organ Type"}
             required
-            onChange={(e) =>
-              setFormData({ ...formData, [e.target.id]: e.target.value })
-            }
+            onChange={(e) => {
+              if (e.target.value === "All Organs") {
+                setFormData({
+                  ...formData,
+                  [e.target.id]: ["Liver", "Kidney", "Kidney"],
+                });
+              } else {
+                setFormData({ ...formData, [e.target.id]: e.target.value });
+              }
+            }}
             id="organType"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline disabled:opacity-50 "
           >
