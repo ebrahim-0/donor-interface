@@ -40,7 +40,7 @@ export default function Register() {
   const [donate, setDonate] = useState(false);
 
   const [isIdValid, setIsIdValid] = useState(true);
-  const [isValidNumber, setIsValidNumber] = useState(null);
+  const [isValidNumber, setIsValidNumber] = useState(true);
   const [idFocus, setIdFocus] = useState(false);
   const [numberFocus, setNumberFocus] = useState(false);
 
@@ -70,12 +70,12 @@ export default function Register() {
   }, [formData.id, update, colRef]);
 
   useEffect(() => {
-    if (formData.phoneNumber?.length === 9) {
+    if (formData.phoneNumber?.slice(4).length === 9) {
       setIsValidNumber(true);
     } else {
       setIsValidNumber(false);
     }
-  }, [formData.phoneNumber?.length]);
+  }, [formData.phoneNumber, formData.phoneNumber.length]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
