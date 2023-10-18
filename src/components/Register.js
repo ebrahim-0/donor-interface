@@ -70,12 +70,22 @@ export default function Register() {
   }, [formData.id, update, colRef]);
 
   useEffect(() => {
-    if (formData.phoneNumber?.slice(4).length === 9) {
-      setIsValidNumber(true);
+    if (update) {
+      if (formData.phoneNumber?.slice(4).length === 9) {
+        setIsValidNumber(true);
+      } else {
+        setIsValidNumber(false);
+      }
     } else {
-      setIsValidNumber(false);
+      if (formData.phoneNumber.length === 9) {
+        setIsValidNumber(true);
+      } else {
+        setIsValidNumber(false);
+      }
     }
-  }, [formData.phoneNumber, formData.phoneNumber.length]);
+  }, [formData.phoneNumber, update]);
+
+  console.log(formData.phoneNumber);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,8 +101,12 @@ export default function Register() {
     }
 
     if (!user) {
-      alert("You should log in first.");
-      navigate("/login");
+      toast.info("You should log in first.", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
       return;
     }
 
