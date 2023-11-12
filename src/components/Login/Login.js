@@ -75,7 +75,7 @@ export default function Login() {
           </Link>
           <span className="text-gray-700">Or</span>
           <div>
-            Create an account?{" "}
+            Create an account?
             <Link
               className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
               to="/signup"

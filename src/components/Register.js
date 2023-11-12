@@ -85,8 +85,6 @@ export default function Register() {
     }
   }, [formData.phoneNumber, update]);
 
-  console.log(formData.phoneNumber);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -111,20 +109,65 @@ export default function Register() {
     }
 
     try {
-      await addDoc(colRef, {
-        name: formData.name,
-        gender: formData.gender,
-        bloodType: formData.bloodType,
-        birthDate: formData.birthDate,
-        phoneNumber: "+966" + formData.phoneNumber,
-        nationality: formData.nationality,
-        id: formData.id,
-        address: formData.address,
-        region: formData.region,
-        city: formData.city,
-        organType: formData.organType,
-        userId: user.uid,
-      });
+      if (formData.organType === "All Organs") {
+        await addDoc(colRef, {
+          name: formData.name,
+          gender: formData.gender,
+          bloodType: formData.bloodType,
+          birthDate: formData.birthDate,
+          phoneNumber: "+966" + formData.phoneNumber,
+          nationality: formData.nationality,
+          id: formData.id,
+          address: formData.address,
+          region: formData.region,
+          city: formData.city,
+          organType: "Kidney",
+          userId: user.uid,
+        });
+        await addDoc(colRef, {
+          name: formData.name,
+          gender: formData.gender,
+          bloodType: formData.bloodType,
+          birthDate: formData.birthDate,
+          phoneNumber: "+966" + formData.phoneNumber,
+          nationality: formData.nationality,
+          id: formData.id,
+          address: formData.address,
+          region: formData.region,
+          city: formData.city,
+          organType: "Kidney",
+          userId: user.uid,
+        });
+        await addDoc(colRef, {
+          name: formData.name,
+          gender: formData.gender,
+          bloodType: formData.bloodType,
+          birthDate: formData.birthDate,
+          phoneNumber: "+966" + formData.phoneNumber,
+          nationality: formData.nationality,
+          id: formData.id,
+          address: formData.address,
+          region: formData.region,
+          city: formData.city,
+          organType: "Liver",
+          userId: user.uid,
+        });
+      } else {
+        await addDoc(colRef, {
+          name: formData.name,
+          gender: formData.gender,
+          bloodType: formData.bloodType,
+          birthDate: formData.birthDate,
+          phoneNumber: "+966" + formData.phoneNumber,
+          nationality: formData.nationality,
+          id: formData.id,
+          address: formData.address,
+          region: formData.region,
+          city: formData.city,
+          organType: formData.organType,
+          userId: user.uid,
+        });
+      }
 
       toast.success("Your request has been sent successfully.", {
         position: toast.POSITION.TOP_RIGHT,
@@ -449,14 +492,14 @@ export default function Register() {
             value={formData.organType ? formData.organType : "Organ Type"}
             required
             onChange={(e) => {
-              if (e.target.value === "All Organs") {
-                setFormData({
-                  ...formData,
-                  [e.target.id]: ["Liver", "Kidney", "Kidney"],
-                });
-              } else {
-                setFormData({ ...formData, [e.target.id]: [e.target.value] });
-              }
+              // if (e.target.value === "All Organs") {
+              //   setFormData({
+              //     ...formData,
+              //     [e.target.id]: ["Liver", "Kidney", "Kidney"],
+              //   });
+              // } else {
+              setFormData({ ...formData, [e.target.id]: e.target.value });
+              // }
             }}
             id="organType"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-300 transition-all duration-300 focus:shadow-outline disabled:opacity-50 "
