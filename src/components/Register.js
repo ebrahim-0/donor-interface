@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import {
-  collection,
   addDoc,
-  query,
-  where,
-  getDocs,
-  setDoc,
-  doc,
+  collection,
   deleteDoc,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../Auth";
 import { getAuth } from "firebase/auth";
@@ -56,7 +56,7 @@ export default function Register() {
         const checkIfIdExists = async () => {
           if (formData.id) {
             const querySnapshot = await getDocs(
-              query(colRef, where("id", "==", formData.id))
+              query(colRef, where("id", "==", formData.id)),
             );
             setIsIdValid(querySnapshot.empty);
           }
@@ -93,7 +93,7 @@ export default function Register() {
         "This ID is already registered. Please use a different one.",
         {
           position: toast.POSITION.TOP_RIGHT,
-        }
+        },
       );
       return;
     }
@@ -121,35 +121,7 @@ export default function Register() {
           address: formData.address,
           region: formData.region,
           city: formData.city,
-          organType: "Kidney",
-          userId: user.uid,
-        });
-        await addDoc(colRef, {
-          name: formData.name,
-          gender: formData.gender,
-          bloodType: formData.bloodType,
-          birthDate: formData.birthDate,
-          phoneNumber: "+966" + formData.phoneNumber,
-          nationality: formData.nationality,
-          id: formData.id,
-          address: formData.address,
-          region: formData.region,
-          city: formData.city,
-          organType: "Kidney",
-          userId: user.uid,
-        });
-        await addDoc(colRef, {
-          name: formData.name,
-          gender: formData.gender,
-          bloodType: formData.bloodType,
-          birthDate: formData.birthDate,
-          phoneNumber: "+966" + formData.phoneNumber,
-          nationality: formData.nationality,
-          id: formData.id,
-          address: formData.address,
-          region: formData.region,
-          city: formData.city,
-          organType: "Liver",
+          organType: "All Organs",
           userId: user.uid,
         });
       } else {
