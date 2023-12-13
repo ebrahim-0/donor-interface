@@ -14,17 +14,13 @@ export default function About() {
         <div>
           <h2 className="text-4xl font-bold">About Us</h2>
           <p className="pt-5">
-            Organ donation is the process of surgically removing an organ or
-            tissue from one person (the organ donor) and placing it into another
-            person (the recipient). Transplantation is necessary because the
-            recipient’s organ has failed or has been damaged by disease or
-            injury. Organ donation can occur after the donor has died (deceased
-            donor) or, in some cases, while the donor is alive (living donor).
+          Welcome to our compassionate donor registry system, where the legacy of life is honored even in the event of death. We recognize the profound impact each individual can have, and our mission is to facilitate the selfless act of organ and tissue donation. Through a user-friendly interface and a robust database, our aim is to connect potential donors with those in need, fostering hope and renewal within our community. Advanced technology and stringent privacy measures ensure that the wishes of each registered donor are respected and carried out with care. The registry system serves as a vital resource for transplant centers and healthcare providers, maintaining an up-to-date and comprehensive database of potential donors. This enables timely and accurate matches between donors and recipients, maximizing the chances of successful transplantation. 
           </p>
           <p className="py-5">
-            Organ and tissue donation helps others by giving them a second
-            chance at life. Learn more about the donation process–and how to
-            become an organ donor.
+          At the core of our donor registry system is the belief that every donation has the power to save and improve lives. By joining our platform, you become a part of a compassionate community committed to making a positive impact on the lives of those in need. Together, we can create a future where more lives are saved, families find solace, and hope is restored.
+          </p>
+          <p className="py-5 font-bold">
+          Join us today and embark on this life-affirming journey.
           </p>
         </div>
       </div>

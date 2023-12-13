@@ -1,13 +1,20 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import { auth } from "../../Auth";
 
+const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [validEmail, setValidEmail] = useState(true);
+
+  const [pwdFocus, setPwdFocus] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,6 +29,10 @@ export default function Login() {
       toast.error(error.message);
     }
   };
+
+  useEffect(() => {
+    setValidEmail(EMAIL_REGEX.test(email));
+  }, [email]);
 
   return (
     <section className="bg-blue-50 h-[90vh] flex justify-center items-center">
@@ -42,8 +53,13 @@ export default function Login() {
             id="email"
             type="email"
             placeholder="Email"
+            onFocus={() => setEmailFocus(true)}
+            onBlur={() => setEmailFocus(false)}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <p className="text-red-500 italic">
+            {!validEmail && emailFocus && "Invalid Email"}
+          </p>
         </div>
         <div className="mb-6">
           <label
@@ -57,8 +73,15 @@ export default function Login() {
             id="password"
             type="password"
             placeholder="Password"
+            onFocus={() => setPwdFocus(true)}
+            onBlur={() => setPwdFocus(false)}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <p className="text-red-500 italic mb-3">
+            {password.length < 8 &&
+              pwdFocus &&
+              "Password must be 8 characters long"}
+          </p>
         </div>
         <div className="flex flex-col gap-4 items-center justify-between">
           <button
